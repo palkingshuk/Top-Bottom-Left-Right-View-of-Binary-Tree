@@ -1,0 +1,115 @@
+//Bottom view
+ vector <int> bottomView(Node *root) {
+        // Your Code Here
+        vector<int> ans;
+        if(root == NULL)    return ans;
+        map<int,int> mp;
+        queue<pair<Node*,int>> q;
+        q.push(make_pair(root,0));
+        while(q.size())
+        {
+            Node* frontNode = q.front().first;
+            int hd = q.front().second;
+            q.pop();
+            mp[hd] = frontNode -> data;
+            if(frontNode -> left)
+            {
+                q.push(make_pair(frontNode -> left , hd - 1));
+            }
+            if(frontNode -> right)
+            {
+                q.push(make_pair(frontNode -> right , hd + 1));
+            }
+            
+        }
+        for(auto it : mp)
+        {
+            ans.push_back(it.second);
+        }
+        return ans;
+    }
+
+
+//Top View
+ vector<int> topView(Node *root)
+    {
+        //Your code here
+        vector<int> ans;
+        if(root == NULL)    return ans;
+        map<int,int> mp;
+        queue<pair<Node*,int>> q;
+        q.push(make_pair(root,0));
+        while(q.size())
+        {
+            Node* frontNode = q.front().first;
+            int hd = q.front().second;
+            q.pop();
+            if(mp.find(hd) == mp.end())
+            {
+                mp[hd] = frontNode -> data;
+            }
+            if(frontNode -> left)
+            {
+                q.push(make_pair(frontNode -> left , hd-1));
+            }
+            if(frontNode -> right)
+            {
+                q.push(make_pair(frontNode -> right , hd+1));
+            }
+        }
+        
+        for(auto it : mp)
+        {
+            ans.push_back(it.second);
+        }
+        return ans;
+    }
+
+
+
+
+//Right View
+void solve(Node* root , vector<int> &ans,int lvl)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    if(lvl == ans.size())ans.push_back(root -> data);
+    solve(root -> right , ans , lvl+1);
+    solve(root -> left , ans , lvl+1);
+}
+    public:
+    //Function to return list containing elements of right view of binary tree.
+    vector<int> rightView(Node *root)
+    {
+       // Your Code here
+        vector<int> ans;
+        solve(root,ans,0);
+        return ans;
+    }
+
+
+
+
+//Left View
+
+
+void solve(Node* root , vector<int> &ans,int lvl)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    if(lvl == ans.size())ans.push_back(root -> data);
+    solve(root -> left , ans , lvl+1);
+    solve(root -> right , ans , lvl+1);
+}
+//Function to return a list containing elements of left view of the binary tree.
+vector<int> leftView(Node *root)
+{
+   // Your code here
+   vector<int> ans;
+   solve(root,ans,0);
+   return ans;
+}
